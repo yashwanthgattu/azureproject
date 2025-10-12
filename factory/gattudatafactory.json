@@ -1,0 +1,9 @@
+{
+	"name": "gattudatafactory",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "19f0baeb-99d1-4eeb-bf77-2703508b6b51",
+		"tenantId": "be3138e0-3098-4011-90d0-16aa3e9bcbcf"
+	}
+}
