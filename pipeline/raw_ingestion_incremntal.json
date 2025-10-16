@@ -46,6 +46,7 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
+				"userProperties": [],
 				"typeProperties": {
 					"source": {
 						"type": "JsonSource",
@@ -59,15 +60,14 @@
 						}
 					},
 					"dataset": {
-						"referenceName": "Json1",
+						"referenceName": "Json2",
 						"type": "DatasetReference",
 						"parameters": {
 							"container": "bronze",
 							"folder": "cdc",
 							"file": "cdc.json"
 						}
-					},
-					"firstRowOnly": false
+					}
 				}
 			}
 		],
