@@ -94,7 +94,7 @@
 								"source": {
 									"type": "AzureSqlSource",
 									"sqlReaderQuery": {
-										"value": "SELECT * FROM @{pipeline().parameters.schema}.@{pipeline().parameters.table} \nWHERE @{pipeline().parameters.cdc_col} > \n'@{if(empty(pipeline().parameters.fromdate), activity('last_cdc').output.value[0].cdc, pipeline().parameters.fromdate)}'\n\n\n\n\n",
+										"value": "SELECT * FROM @{item().schema}.@{item().table} \nWHERE @{item().cdc_col} > \n'@{if(empty(item().fromdate), activity('last_cdc').output.value[0].cdc,item().fromdate)}'\n\n\n\n\n",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -132,11 +132,11 @@
 									"parameters": {
 										"container": "bronze",
 										"folder": {
-											"value": "@pipeline().parameters.table",
+											"value": "@{item().table}",
 											"type": "Expression"
 										},
 										"file": {
-											"value": "@concat(pipeline().parameters.table,'_',variables('current'))",
+											"value": "@concat(item().table,'_',variables('current'))",
 											"type": "Expression"
 										}
 									}
@@ -217,7 +217,7 @@
 												{
 													"type": "Query",
 													"text": {
-														"value": "SELECT MAX(@{pipeline().parameters.cdc_col}) as cdc  FROM @{pipeline().parameters.schema}.@{pipeline().parameters.table}",
+														"value": "SELECT MAX(@{item().cdc_col}) as cdc  FROM @{item().schema}.@{item().table}",
 														"type": "Expression"
 													}
 												}
@@ -294,7 +294,7 @@
 												"parameters": {
 													"container": "bronze",
 													"folder": {
-														"value": "@{pipeline().parameters.table}_CDC",
+														"value": "@{item().table}_CDC",
 														"type": "Expression"
 													},
 													"file": "cdc.json"
@@ -310,17 +310,40 @@
 			}
 		],
 		"parameters": {
-			"schema": {
-				"type": "string"
-			},
-			"table": {
-				"type": "string"
-			},
-			"cdc_col": {
-				"type": "string"
-			},
-			"fromdate": {
-				"type": "string"
+			"loop_input": {
+				"type": "array",
+				"defaultValue": [
+					{
+						"schema": "dbo",
+						"table": "DimUser",
+						"cdc_col": "updated_at",
+						"fromdate": ""
+					},
+					{
+						"schema": "dbo",
+						"table": "DimTrack",
+						"cdc_col": "updated_at",
+						"fromdate": ""
+					},
+					{
+						"schema": "dbo",
+						"table": "DimDate",
+						"cdc_col": "date",
+						"fromdate": ""
+					},
+					{
+						"schema": "dbo",
+						"table": "DimArtist",
+						"cdc_col": "updated_at",
+						"fromdate": ""
+					},
+					{
+						"schema": "dbo",
+						"table": "FactStream",
+						"cdc_col": "stream_timestamp",
+						"fromdate": ""
+					}
+				]
 			}
 		},
 		"variables": {
