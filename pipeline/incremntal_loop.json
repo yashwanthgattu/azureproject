@@ -5,14 +5,7 @@
 			{
 				"name": "rawdatacopy",
 				"type": "Copy",
-				"dependsOn": [
-					{
-						"activity": "cureent",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -73,23 +66,6 @@
 						}
 					}
 				]
-			},
-			{
-				"name": "cureent",
-				"type": "SetVariable",
-				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "current",
-					"value": {
-						"value": "@utcNow()",
-						"type": "Expression"
-					}
-				}
 			},
 			{
 				"name": "If incremental",
@@ -297,6 +273,23 @@
 									}
 								},
 								"firstRowOnly": false
+							}
+						},
+						{
+							"name": "cureent",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "current",
+								"value": {
+									"value": "@utcNow()",
+									"type": "Expression"
+								}
 							}
 						}
 					]
